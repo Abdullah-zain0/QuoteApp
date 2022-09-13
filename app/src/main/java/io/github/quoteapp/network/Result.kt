@@ -17,6 +17,7 @@ data class Result(
 fun Result.toQuoteWithAuthor(): QuotesWithAuthor {
     return QuotesWithAuthor(
         quote = content,
-        author = author
+        author = author,
+        id = id
     )
 }
