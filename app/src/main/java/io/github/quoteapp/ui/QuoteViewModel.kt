@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.quoteapp.model.QuotesWithAuthor
 import io.github.quoteapp.network.QuotesApi
-import io.github.quoteapp.network.Result
 import io.github.quoteapp.network.toQuoteWithAuthor
 import io.github.quoteapp.utils.MyColor
 import io.github.quoteapp.utils.coler
@@ -20,28 +19,27 @@ import javax.inject.Inject
 class QuoteViewModel @Inject constructor(
     private val api: QuotesApi
 ) : ViewModel() {
-    private var _noOfQuotes: MutableLiveData<Int> = MutableLiveData()
-    lateinit var colorList: List<MyColor>
+    private var noOfQuotes: MutableLiveData<Int> = MutableLiveData()
+    private lateinit var colorList: List<MyColor>
 
     private val _quoteWithAuthor = MutableLiveData<List<QuotesWithAuthor>>()
 
-    private var result = MutableLiveData<List<Result>>()
     val quoteWithAuthor: LiveData<List<QuotesWithAuthor>> = _quoteWithAuthor
 
     init {
         getQuotes()
     }
 
-    val noOfQuotes: MutableLiveData<Int> = _noOfQuotes
+
     private fun getQuotes() {
         viewModelScope.launch {
             try {
                 api.getQuotes().body()?.results?.apply {
-                    _noOfQuotes.value = this.size
+                    noOfQuotes.value = this.size
                     _quoteWithAuthor.value = this.map {
                         it.toQuoteWithAuthor()
                     }
-                    colorList = coler(_noOfQuotes.value)
+                    colorList = coler(noOfQuotes.value)
                 }
 
 

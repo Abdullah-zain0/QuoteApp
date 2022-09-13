@@ -10,19 +10,17 @@ import io.github.quoteapp.databinding.ItemViewBinding
 import io.github.quoteapp.model.QuotesWithAuthor
 import io.github.quoteapp.utils.colorList
 
-class QuoteAdapter() : ListAdapter<QuotesWithAuthor,
+class QuoteAdapter : ListAdapter<QuotesWithAuthor,
         QuoteAdapter.ResultViewHolder>(DiffCallback) {
 
     class ResultViewHolder(private var binding: ItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(quotewithAuthor: QuotesWithAuthor, position: Int) {
-            binding.quoteAndAuthor = quotewithAuthor
-//            binding.textView2.setTextColor(AllColorsList(3))
+        fun bind(quoteWithAuthor: QuotesWithAuthor, position: Int) {
+            binding.quoteAndAuthor = quoteWithAuthor
+
             binding.textView.setBackgroundColor(colorList[position].backGroundColor)
             binding.textView.setTextColor(colorList[position].forGroundColor)
-//            binding.textView.setBackgroundColor(RandomColorSelector().randomColor)
-//            binding.textView.setTextColor(RandomColorSelector().randomComplementColors)
-//            binding.textView2.setTextColor(RandomColorSelector().randomComplementColorsForTextVi2)
+
             binding.executePendingBindings()
         }
 
@@ -31,7 +29,7 @@ class QuoteAdapter() : ListAdapter<QuotesWithAuthor,
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): QuoteAdapter.ResultViewHolder {
+    ): ResultViewHolder {
         return ResultViewHolder(
             ItemViewBinding.inflate(
                 LayoutInflater.from(parent.context)
@@ -39,7 +37,7 @@ class QuoteAdapter() : ListAdapter<QuotesWithAuthor,
         )
     }
 
-    override fun onBindViewHolder(holder: QuoteAdapter.ResultViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         val result = getItem(position)
         holder.bind(result,position)
     }
